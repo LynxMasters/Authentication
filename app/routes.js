@@ -76,14 +76,14 @@ module.exports = function(app, passport) {
             }));
 
 
-    // google ---------------------------------
+    // reddit ---------------------------------
 
         // send to google to do the authentication
-        app.get('/auth/google', passport.authenticate('google', { scope : ['profile', 'email'] }));
+        app.get('/auth/reddit', passport.authenticate('reddit', { scope : ['profile', 'email'] }));
 
         // the callback after google has authenticated the user
-        app.get('/auth/google/callback',
-            passport.authenticate('google', {
+        app.get('/auth/reddit/callback',
+            passport.authenticate('reddit', {
                 successRedirect : '/profile',
                 failureRedirect : '/'
             }));
@@ -105,11 +105,11 @@ module.exports = function(app, passport) {
     // facebook -------------------------------
 
         // send to facebook to do the authentication
-        app.get('/connect/facebook', passport.authorize('facebook', { scope : ['public_profile', 'email'] }));
+        app.get('/connect/twitch', passport.authorize('twitch', { scope : ['public_profile', 'email'] }));
 
         // handle the callback after facebook has authorized the user
-        app.get('/connect/facebook/callback',
-            passport.authorize('facebook', {
+        app.get('/connect/twitch/callback',
+            passport.authorize('twitch', {
                 successRedirect : '/profile',
                 failureRedirect : '/'
             }));
@@ -130,11 +130,11 @@ module.exports = function(app, passport) {
     // google ---------------------------------
 
         // send to google to do the authentication
-        app.get('/connect/google', passport.authorize('google', { scope : ['profile', 'email'] }));
+        app.get('/connect/reddit', passport.authorize('reddit', { scope : ['profile', 'email'] }));
 
         // the callback after google has authorized the user
-        app.get('/connect/google/callback',
-            passport.authorize('google', {
+        app.get('/connect/reddit/callback',
+            passport.authorize('reddit', {
                 successRedirect : '/profile',
                 failureRedirect : '/'
             }));

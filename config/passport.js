@@ -1,8 +1,8 @@
 // load all the things we need
 var LocalStrategy    = require('passport-local').Strategy;
-var FacebookStrategy = require('passport-facebook').Strategy;
+var TwitchStrategy = require('passport-twitch').Strategy;
 var TwitterStrategy  = require('passport-twitter').Strategy;
-var GoogleStrategy   = require('passport-google-oauth').OAuth2Strategy;
+var RedditStrategy   = require('passport-reddit').Strategy;
 
 // load up the user model
 var User       = require('../app/models/user');
@@ -140,11 +140,11 @@ module.exports = function(passport) {
     }));
 
     // =========================================================================
-    // FACEBOOK ================================================================
+    // Twitch ================================================================
     // =========================================================================
-    var fbStrategy = configAuth.facebookAuth;
-    fbStrategy.passReqToCallback = true;  // allows us to pass in the req from our route (lets us check if a user is logged in or not)
-    passport.use(new FacebookStrategy(fbStrategy,
+    var thStrategy = configAuth.twitchAuth;
+    thStrategy.passReqToCallback = true;  // allows us to pass in the req from our route (lets us check if a user is logged in or not)
+    passport.use(new TwitchStrategy(thStrategy,
     function(req, token, refreshToken, profile, done) {
 
         // asynchronous
@@ -153,17 +153,17 @@ module.exports = function(passport) {
             // check if the user is already logged in
             if (!req.user) {
 
-                User.findOne({ 'facebook.id' : profile.id }, function(err, user) {
+                User.findOne({ 'twitch.id' : profile.id }, function(err, user) {
                     if (err)
                         return done(err);
 
                     if (user) {
 
                         // if there is a user id already but no token (user was linked at one point and then removed)
-                        if (!user.facebook.token) {
-                            user.facebook.token = token;
-                            user.facebook.name  = profile.name.givenName + ' ' + profile.name.familyName;
-                            user.facebook.email = (profile.emails[0].value || '').toLowerCase();
+                        if (!user.twitch.token) {
+                            user.twitch.token = token;
+                            user.twitch.name  = profile.name.givenName + ' ' + profile.name.familyName;
+                            user.twitch.email = (profile.emails[0].value || '').toLowerCase();
 
                             user.save(function(err) {
                                 if (err)
@@ -178,10 +178,10 @@ module.exports = function(passport) {
                         // if there is no user, create them
                         var newUser            = new User();
 
-                        newUser.facebook.id    = profile.id;
-                        newUser.facebook.token = token;
-                        newUser.facebook.name  = profile.name.givenName + ' ' + profile.name.familyName;
-                        newUser.facebook.email = (profile.emails[0].value || '').toLowerCase();
+                        newUser.twitch.id    = profile.id;
+                        newUser.twitch.token = token;
+                        newUser.twitch.name  = profile.name.givenName + ' ' + profile.name.familyName;
+                        newUser.twitch.email = (profile.emails[0].value || '').toLowerCase();
 
                         newUser.save(function(err) {
                             if (err)
@@ -196,10 +196,10 @@ module.exports = function(passport) {
                 // user already exists and is logged in, we have to link accounts
                 var user            = req.user; // pull the user out of the session
 
-                user.facebook.id    = profile.id;
-                user.facebook.token = token;
-                user.facebook.name  = profile.name.givenName + ' ' + profile.name.familyName;
-                user.facebook.email = (profile.emails[0].value || '').toLowerCase();
+                user.twitch.id    = profile.id;
+                user.twitch.token = token;
+                user.twitch.name  = profile.name.givenName + ' ' + profile.name.familyName;
+                user.twitch.email = (profile.emails[0].value || '').toLowerCase();
 
                 user.save(function(err) {
                     if (err)
@@ -292,13 +292,13 @@ module.exports = function(passport) {
     }));
 
     // =========================================================================
-    // GOOGLE ==================================================================
+    // REDDIT ==================================================================
     // =========================================================================
-    passport.use(new GoogleStrategy({
+    passport.use(new RedditStrategy({
 
-        clientID        : configAuth.googleAuth.clientID,
-        clientSecret    : configAuth.googleAuth.clientSecret,
-        callbackURL     : configAuth.googleAuth.callbackURL,
+        clientID        : configAuth.redditAuth.clientID,
+        clientSecret    : configAuth.redditAuth.clientSecret,
+        callbackURL     : configAuth.redditAuth.callbackURL,
         passReqToCallback : true // allows us to pass in the req from our route (lets us check if a user is logged in or not)
 
     },
@@ -310,17 +310,17 @@ module.exports = function(passport) {
             // check if the user is already logged in
             if (!req.user) {
 
-                User.findOne({ 'google.id' : profile.id }, function(err, user) {
+                User.findOne({ 'reddit.id' : profile.id }, function(err, user) {
                     if (err)
                         return done(err);
 
                     if (user) {
 
                         // if there is a user id already but no token (user was linked at one point and then removed)
-                        if (!user.google.token) {
-                            user.google.token = token;
-                            user.google.name  = profile.displayName;
-                            user.google.email = (profile.emails[0].value || '').toLowerCase(); // pull the first email
+                        if (!user.reddit.token) {
+                            user.reddit.token = token;
+                            user.reddit.name  = profile.displayName;
+                            user.reddit.email = (profile.emails[0].value || '').toLowerCase(); // pull the first email
 
                             user.save(function(err) {
                                 if (err)
@@ -334,10 +334,10 @@ module.exports = function(passport) {
                     } else {
                         var newUser          = new User();
 
-                        newUser.google.id    = profile.id;
-                        newUser.google.token = token;
-                        newUser.google.name  = profile.displayName;
-                        newUser.google.email = (profile.emails[0].value || '').toLowerCase(); // pull the first email
+                        newUser.reddit.id    = profile.id;
+                        newUser.reddit.token = token;
+                        newUser.reddit.name  = profile.displayName;
+                        newUser.reddit.email = (profile.emails[0].value || '').toLowerCase(); // pull the first email
 
                         newUser.save(function(err) {
                             if (err)
@@ -352,10 +352,10 @@ module.exports = function(passport) {
                 // user already exists and is logged in, we have to link accounts
                 var user               = req.user; // pull the user out of the session
 
-                user.google.id    = profile.id;
-                user.google.token = token;
-                user.google.name  = profile.displayName;
-                user.google.email = (profile.emails[0].value || '').toLowerCase(); // pull the first email
+                user.reddit.id    = profile.id;
+                user.reddit.token = token;
+                user.reddit.name  = profile.displayName;
+                user.reddit.email = (profile.emails[0].value || '').toLowerCase(); // pull the first email
 
                 user.save(function(err) {
                     if (err)

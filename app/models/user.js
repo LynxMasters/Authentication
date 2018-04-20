@@ -9,7 +9,7 @@ var userSchema = mongoose.Schema({
         email        : String,
         password     : String
     },
-    reddit         : {
+    twitch         : {
         id           : String,
         token        : String,
         name         : String,
@@ -21,7 +21,7 @@ var userSchema = mongoose.Schema({
         displayName  : String,
         username     : String
     },
-    twitch           : {
+    reddit           : {
         id           : String,
         token        : String,
         email        : String,

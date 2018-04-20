@@ -38,23 +38,23 @@
             </div>
         </div>
 
-        <!-- FACEBOOK INFORMATION -->
+        <!-- Twitch INFORMATION -->
         <div class="col-sm-6">
             <div class="well">
-                <h3 class="text-danger"><span class="fab fa-reddit"></span> Reddit</h3>
+                <h3 class="text-info"><span class="fab fa-twitch"></span> twitch</h3>
 
                 <!-- check if the user has this token (is the user authenticated with this social account) -->
-                <% if (user.reddit.token) { %>
+                <% if (user.twitch.token) { %>
                     <p>
-                        <strong>id</strong>: <%= user.reddit.id %><br>
-                        <strong>token</strong>: <%= user.reddit.token %><br>
-                        <strong>email</strong>: <%= user.reddit.email %><br>
-                        <strong>name</strong>: <%= user.reddit.name %><br>
+                        <strong>id</strong>: <%= user.twitch.id %><br>
+                        <strong>token</strong>: <%= user.twitch.token %><br>
+                        <strong>email</strong>: <%= user.twitch.email %><br>
+                        <strong>name</strong>: <%= user.twitch.name %><br>
                     </p>
 
-                    <a href="/unlink/facebook" class="btn btn-primary">Unlink</a>
+                    <a href="/unlink/twitch" class="btn btn-primary">Unlink</a>
                 <% } else { %>
-                    <a href="/connect/facebook" class="btn btn-danger">Link Reddit</a>
+                    <a href="/connect/twitch" class="btn btn-info">Link Twitch</a>
                 <% } %>
 
             </div>
@@ -83,22 +83,22 @@
             </div>
         </div>
 
-        <!-- GOOGLE INFORMATION -->
+        <!-- REDDIT INFORMATION -->
         <div class="col-sm-6">
             <div class="well">
-                <h3 class="text-info"><span class="fab fa-twitch"></span> Twitch</h3>
+                <h3 class="text-danger"><span class="fab fa-reddit"></span> Reddit</h3>
 
-                <% if (user.twitch.token) { %>
+                <% if (user.reddit.token) { %>
                     <p>
-                        <strong>id</strong>: <%= user.twitch.id %><br>
-                        <strong>token</strong>: <%= user.twitch.token %><br>
-                        <strong>email</strong>: <%= user.twitch.email %><br>
-                        <strong>name</strong>: <%= user.twitch.name %>
+                        <strong>id</strong>: <%= user.reddit.id %><br>
+                        <strong>token</strong>: <%= user.reddit.token %><br>
+                        <strong>email</strong>: <%= user.reddit.email %><br>
+                        <strong>name</strong>: <%= user.reddit.name %>
                     </p>
 
-                    <a href="/unlink/google" class="btn btn-info">Unlink</a>
+                    <a href="/unlink/reddit" class="btn btn-danger">Unlink</a>
                 <% } else { %>
-                    <a href="/connect/google" class="btn btn-info">Link Twitch</a>
+                    <a href="/connect/reddit" class="btn btn-danger">Link Reddit</a>
                 <% } %>
 
             </div>
