@@ -24,7 +24,6 @@ var userSchema = mongoose.Schema({
     reddit           : {
         id           : String,
         token        : String,
-        email        : String,
         name         : String
     }
 

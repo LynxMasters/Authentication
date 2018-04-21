@@ -320,7 +320,7 @@ module.exports = function(passport) {
                         if (!user.reddit.token) {
                             user.reddit.token = token;
                             user.reddit.name  = profile.displayName;
-                            user.reddit.email = (profile.emails[0].value || '').toLowerCase(); // pull the first email
+
 
                             user.save(function(err) {
                                 if (err)
@@ -337,7 +337,7 @@ module.exports = function(passport) {
                         newUser.reddit.id    = profile.id;
                         newUser.reddit.token = token;
                         newUser.reddit.name  = profile.displayName;
-                        newUser.reddit.email = (profile.emails[0].value || '').toLowerCase(); // pull the first email
+
 
                         newUser.save(function(err) {
                             if (err)
@@ -355,7 +355,7 @@ module.exports = function(passport) {
                 user.reddit.id    = profile.id;
                 user.reddit.token = token;
                 user.reddit.name  = profile.displayName;
-                user.reddit.email = (profile.emails[0].value || '').toLowerCase(); // pull the first email
+
 
                 user.save(function(err) {
                     if (err)

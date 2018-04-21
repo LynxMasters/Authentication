@@ -78,11 +78,15 @@ module.exports = function(app, passport) {
 
     // reddit ---------------------------------
 
-        // send to google to do the authentication
+        // send to reddit to do the authentication
         app.get('/auth/reddit',
-            passport.authenticate('reddit',  { state: 'fdfdsfasfdsfdf', duration: 'permanent', scope: 'identity edit flair history modconfig modflair modlog modposts modwiki mysubreddits privatemessages read report save submit subscribe vote wikiedit wikiread' }));
+            passport.authenticate('reddit',  {
+                state: 'fdfdsfasfdsfdf',
+                duration: 'permanent',
+                scope: 'identity edit flair history modconfig modflair modlog modposts modwiki mysubreddits privatemessages read report save submit subscribe vote wikiedit wikiread'
+            }));
 
-        // the callback after google has authenticated the user
+        // the callback after reddit has authenticated the user
         app.get('/auth/reddit/callback',
             passport.authenticate('reddit', {
                 successRedirect : '/profile',
