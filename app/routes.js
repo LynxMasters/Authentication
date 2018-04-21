@@ -80,7 +80,7 @@ module.exports = function(app, passport) {
 
         // send to google to do the authentication
         app.get('/auth/reddit',
-            passport.authenticate('reddit',  { state: 'fdfdsfasfdsfdf', duration: 'permanent' }));
+            passport.authenticate('reddit',  { state: 'fdfdsfasfdsfdf', duration: 'permanent', scope: 'identity edit flair history modconfig modflair modlog modposts modwiki mysubreddits privatemessages read report save submit subscribe vote wikiedit wikiread' }));
 
         // the callback after google has authenticated the user
         app.get('/auth/reddit/callback',
