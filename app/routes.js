@@ -54,11 +54,11 @@ module.exports = function(app, passport) {
     // facebook -------------------------------
 
         // send to facebook to do the authentication
-        app.get('/auth/facebook', passport.authenticate('facebook', { scope : ['public_profile', 'email'] }));
+        app.get('/auth/twitch', passport.authenticate('twitch', { scope : ['public_profile', 'email'] }));
 
         // handle the callback after facebook has authenticated the user
-        app.get('/auth/facebook/callback',
-            passport.authenticate('facebook', {
+        app.get('/auth/twitch/callback',
+            passport.authenticate('twitch', {
                 successRedirect : '/profile',
                 failureRedirect : '/'
             }));
@@ -79,7 +79,8 @@ module.exports = function(app, passport) {
     // reddit ---------------------------------
 
         // send to google to do the authentication
-        app.get('/auth/reddit', passport.authenticate('reddit', { scope : ['profile', 'email'] }));
+        app.get('/auth/reddit',
+            passport.authenticate('reddit',  { state: 'fdfdsfasfdsfdf', duration: 'permanent' }));
 
         // the callback after google has authenticated the user
         app.get('/auth/reddit/callback',
@@ -105,7 +106,7 @@ module.exports = function(app, passport) {
     // facebook -------------------------------
 
         // send to facebook to do the authentication
-        app.get('/connect/twitch', passport.authorize('twitch', { scope : ['public_profile', 'email'] }));
+        app.get('/connect/twitch', passport.authorize('twitch', { scope :'email' }));
 
         // handle the callback after facebook has authorized the user
         app.get('/connect/twitch/callback',
@@ -127,10 +128,10 @@ module.exports = function(app, passport) {
             }));
 
 
-    // google ---------------------------------
+    // reddit ---------------------------------
 
-        // send to google to do the authentication
-        app.get('/connect/reddit', passport.authorize('reddit', { scope : ['profile', 'email'] }));
+        // send to reddit to do the authentication
+        app.get('/connect/reddit', passport.authorize('reddit'));
 
         // the callback after google has authorized the user
         app.get('/connect/reddit/callback',
@@ -157,9 +158,9 @@ module.exports = function(app, passport) {
     });
 
     // facebook -------------------------------
-    app.get('/unlink/facebook', isLoggedIn, function(req, res) {
+    app.get('/unlink/twitch', isLoggedIn, function(req, res) {
         var user            = req.user;
-        user.facebook.token = undefined;
+        user.twitch.token = undefined;
         user.save(function(err) {
             res.redirect('/profile');
         });
@@ -175,9 +176,9 @@ module.exports = function(app, passport) {
     });
 
     // google ---------------------------------
-    app.get('/unlink/google', isLoggedIn, function(req, res) {
+    app.get('/unlink/reddit', isLoggedIn, function(req, res) {
         var user          = req.user;
-        user.google.token = undefined;
+        user.reddit.token = undefined;
         user.save(function(err) {
             res.redirect('/profile');
         });

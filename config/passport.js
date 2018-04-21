@@ -1,6 +1,6 @@
 // load all the things we need
 var LocalStrategy    = require('passport-local').Strategy;
-var TwitchStrategy = require('passport-twitch').Strategy;
+var TwitchStrategy =   require('passport-twitch').Strategy;
 var TwitterStrategy  = require('passport-twitter').Strategy;
 var RedditStrategy   = require('passport-reddit').Strategy;
 
@@ -302,7 +302,7 @@ module.exports = function(passport) {
         passReqToCallback : true // allows us to pass in the req from our route (lets us check if a user is logged in or not)
 
     },
-    function(req, token, refreshToken, profile, done) {
+    function(req, accessToken, refreshToken, profile, done) {
 
         // asynchronous
         process.nextTick(function() {
@@ -318,7 +318,7 @@ module.exports = function(passport) {
 
                         // if there is a user id already but no token (user was linked at one point and then removed)
                         if (!user.reddit.token) {
-                            user.reddit.token = token;
+                            user.reddit.token = accessToken;
                             user.reddit.name  = profile.displayName;
                             user.reddit.email = (profile.emails[0].value || '').toLowerCase(); // pull the first email
 
@@ -335,7 +335,7 @@ module.exports = function(passport) {
                         var newUser          = new User();
 
                         newUser.reddit.id    = profile.id;
-                        newUser.reddit.token = token;
+                        newUser.reddit.token = accessToken;
                         newUser.reddit.name  = profile.displayName;
                         newUser.reddit.email = (profile.emails[0].value || '').toLowerCase(); // pull the first email
 
@@ -353,7 +353,7 @@ module.exports = function(passport) {
                 var user               = req.user; // pull the user out of the session
 
                 user.reddit.id    = profile.id;
-                user.reddit.token = token;
+                user.reddit.token = accessToken;
                 user.reddit.name  = profile.displayName;
                 user.reddit.email = (profile.emails[0].value || '').toLowerCase(); // pull the first email
 
