@@ -56,7 +56,7 @@ module.exports = function(app, passport) {
         // send to facebook to do the authentication
         app.get('/auth/twitch', passport.authenticate('twitch', 
             { scope :
-             ['public_profile', 'user_read'] 
+             ['user_read'] 
             }
          ));
 
