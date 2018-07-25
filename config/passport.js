@@ -162,9 +162,7 @@ module.exports = function(passport) {
                         // if there is a user id already but no token (user was linked at one point and then removed)
                         if (!user.twitch.token) {
                             user.twitch.token = token;
-                            user.twitch.name  = profile.name.givenName + ' ' + profile.name.familyName;
-                            user.twitch.email = (profile.emails[0].value || '').toLowerCase();
-
+                        
                             user.save(function(err) {
                                 if (err)
                                     return done(err);
@@ -180,9 +178,7 @@ module.exports = function(passport) {
 
                         newUser.twitch.id    = profile.id;
                         newUser.twitch.token = token;
-                        newUser.twitch.name  = profile.name.givenName + ' ' + profile.name.familyName;
-                        newUser.twitch.email = (profile.emails[0].value || '').toLowerCase();
-
+                        
                         newUser.save(function(err) {
                             if (err)
                                 return done(err);
@@ -198,9 +194,6 @@ module.exports = function(passport) {
 
                 user.twitch.id    = profile.id;
                 user.twitch.token = token;
-                user.twitch.name  = profile.name.givenName + ' ' + profile.name.familyName;
-                user.twitch.email = (profile.emails[0].value || '').toLowerCase();
-
                 user.save(function(err) {
                     if (err)
                         return done(err);

@@ -1,6 +1,6 @@
 // config/database.js
 module.exports = {
 
-    'url' : 'mongodb://localhost/passport'
+    'url' : 'mongodb://54.165.68.141:27017/passport'
 
 };

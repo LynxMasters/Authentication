@@ -51,12 +51,16 @@ module.exports = function(app, passport) {
             failureFlash : true // allow flash messages
         }));
 
-    // facebook -------------------------------
+    // twitch -------------------------------
 
         // send to facebook to do the authentication
-        app.get('/auth/twitch', passport.authenticate('twitch', { scope : ['public_profile', 'email'] }));
+        app.get('/auth/twitch', passport.authenticate('twitch', 
+            { scope :
+             ['public_profile', 'user_read'] 
+            }
+         ));
 
-        // handle the callback after facebook has authenticated the user
+        // handle the callback after twitch has authenticated the user
         app.get('/auth/twitch/callback',
             passport.authenticate('twitch', {
                 successRedirect : '/profile',
@@ -77,13 +81,13 @@ module.exports = function(app, passport) {
 
 
     // reddit ---------------------------------
-
+        //Have to fix state
         // send to reddit to do the authentication
         app.get('/auth/reddit',
-            passport.authenticate('reddit',  {
-                state: 'fdfdsfasfdsfdf',
+            passport.authenticate('reddit', {
+                state: 'fsdfdsafdffsa',
                 duration: 'permanent',
-                scope: 'identity edit flair history modconfig modflair modlog modposts modwiki mysubreddits privatemessages read report save submit subscribe vote wikiedit wikiread'
+                scope: 'identity,edit,flair,history,modconfig,modflair,modlog,modposts,modwiki,mysubreddits,privatemessages,read,report,save,submit,subscribe,vote'
             }));
 
         // the callback after reddit has authenticated the user
@@ -107,12 +111,12 @@ module.exports = function(app, passport) {
             failureFlash : true // allow flash messages
         }));
 
-    // facebook -------------------------------
+    // twitch -------------------------------
 
         // send to facebook to do the authentication
-        app.get('/connect/twitch', passport.authorize('twitch', { scope :'email' }));
+        app.get('/connect/twitch', passport.authorize('twitch', { scope :'user_read' }));
 
-        // handle the callback after facebook has authorized the user
+        // handle the callback after twitch has authorized the user
         app.get('/connect/twitch/callback',
             passport.authorize('twitch', {
                 successRedirect : '/profile',
@@ -161,7 +165,7 @@ module.exports = function(app, passport) {
         });
     });
 
-    // facebook -------------------------------
+    // twitch -------------------------------
     app.get('/unlink/twitch', isLoggedIn, function(req, res) {
         var user            = req.user;
         user.twitch.token = undefined;
