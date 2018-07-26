@@ -2,58 +2,9 @@ module.exports = function(app, passport) {
 
 // normal routes ===============================================================
 
-    // show the home page (will also have our login links)
-    app.get('/', function(req, res) {
-        res.render('index.ejs');
-    });
-
-    // PROFILE SECTION =========================
-    app.get('/profile', isLoggedIn, function(req, res) {
-        res.render('profile.ejs', {
-            user : req.user
-        });
-    });
-
-    // LOGOUT ==============================
-    app.get('/logout', function(req, res) {
-        req.logout();
-        res.redirect('/');
-    });
-
-// =============================================================================
-// AUTHENTICATE (FIRST LOGIN) ==================================================
-// =============================================================================
-
-    // locally --------------------------------
-        // LOGIN ===============================
-        // show the login form
-        app.get('/login', function(req, res) {
-            res.render('login.ejs', { message: req.flash('loginMessage') });
-        });
-
-        // process the login form
-        app.post('/login', passport.authenticate('local-login', {
-            successRedirect : '/profile', // redirect to the secure profile section
-            failureRedirect : '/login', // redirect back to the signup page if there is an error
-            failureFlash : true // allow flash messages
-        }));
-
-        // SIGNUP =================================
-        // show the signup form
-        app.get('/signup', function(req, res) {
-            res.render('signup.ejs', { message: req.flash('signupMessage') });
-        });
-
-        // process the signup form
-        app.post('/signup', passport.authenticate('local-signup', {
-            successRedirect : '/profile', // redirect to the secure profile section
-            failureRedirect : '/signup', // redirect back to the signup page if there is an error
-            failureFlash : true // allow flash messages
-        }));
-
     // twitch -------------------------------
 
-        // send to facebook to do the authentication
+        // send to twitch to do the authentication
         app.get('/auth/twitch', passport.authenticate('twitch', 
             { scope :
              ['user_read'] 
@@ -63,8 +14,8 @@ module.exports = function(app, passport) {
         // handle the callback after twitch has authenticated the user
         app.get('/auth/twitch/callback',
             passport.authenticate('twitch', {
-                successRedirect : '/profile',
-                failureRedirect : '/'
+                successRedirect : 'http://localhost:8080/LinkAccounts?auth=twitch&code=success',
+                failureRedirect : 'http://localhost:8080/LinkAccounts?auth=twitch&code=failure'
             }));
 
     // twitter --------------------------------
@@ -75,13 +26,11 @@ module.exports = function(app, passport) {
         // handle the callback after twitter has authenticated the user
         app.get('/auth/twitter/callback',
             passport.authenticate('twitter', {
-                successRedirect : '/profile',
-                failureRedirect : '/'
+                successRedirect : 'http://localhost:8080/LinkAccounts?auth=twitter&code=success',
+                failureRedirect : 'http://localhost:8080/LinkAccounts?auth=twitter&code=failure'
             }));
 
-
     // reddit ---------------------------------
-        //Have to fix state
         // send to reddit to do the authentication
         app.get('/auth/reddit',
             passport.authenticate('reddit', {
@@ -93,27 +42,17 @@ module.exports = function(app, passport) {
         // the callback after reddit has authenticated the user
         app.get('/auth/reddit/callback',
             passport.authenticate('reddit', {
-                successRedirect : '/profile',
-                failureRedirect : '/'
+                successRedirect : 'http://localhost:8080/LinkAccounts?auth=reddit&code=success',
+                failureRedirect : 'http://localhost:8080/LinkAccounts?auth=reddit&code=failure'
             }));
 
 // =============================================================================
 // AUTHORIZE (ALREADY LOGGED IN / CONNECTING OTHER SOCIAL ACCOUNT) =============
 // =============================================================================
 
-    // locally --------------------------------
-        app.get('/connect/local', function(req, res) {
-            res.render('connect-local.ejs', { message: req.flash('loginMessage') });
-        });
-        app.post('/connect/local', passport.authenticate('local-signup', {
-            successRedirect : '/profile', // redirect to the secure profile section
-            failureRedirect : '/connect/local', // redirect back to the signup page if there is an error
-            failureFlash : true // allow flash messages
-        }));
-
     // twitch -------------------------------
 
-        // send to facebook to do the authentication
+        // send to twitch to do the authentication
         app.get('/connect/twitch', passport.authorize('twitch', { scope :'user_read' }));
 
         // handle the callback after twitch has authorized the user
@@ -135,7 +74,6 @@ module.exports = function(app, passport) {
                 failureRedirect : '/'
             }));
 
-
     // reddit ---------------------------------
 
         // send to reddit to do the authentication
@@ -151,19 +89,6 @@ module.exports = function(app, passport) {
 // =============================================================================
 // UNLINK ACCOUNTS =============================================================
 // =============================================================================
-// used to unlink accounts. for social accounts, just remove the token
-// for local account, remove email and password
-// user account will stay active in case they want to reconnect in the future
-
-    // local -----------------------------------
-    app.get('/unlink/local', isLoggedIn, function(req, res) {
-        var user            = req.user;
-        user.local.email    = undefined;
-        user.local.password = undefined;
-        user.save(function(err) {
-            res.redirect('/profile');
-        });
-    });
 
     // twitch -------------------------------
     app.get('/unlink/twitch', isLoggedIn, function(req, res) {
