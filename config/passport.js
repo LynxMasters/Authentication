@@ -149,7 +149,7 @@ module.exports = function(passport) {
 
         // asynchronous
         process.nextTick(function() {
-
+            console.log(profile);
             // check if the user is already logged in
             if (!req.user) {
 
@@ -178,7 +178,8 @@ module.exports = function(passport) {
 
                         newUser.twitch.id    = profile.id;
                         newUser.twitch.token = token;
-                        
+                        newUser.twitch.username  = profile.username;
+                        newUser.twitch.email = profile.email;
                         newUser.save(function(err) {
                             if (err)
                                 return done(err);
@@ -194,6 +195,8 @@ module.exports = function(passport) {
 
                 user.twitch.id    = profile.id;
                 user.twitch.token = token;
+                user.twitch.username = profile.username;
+                user.twitch.email = profile.email;
                 user.save(function(err) {
                     if (err)
                         return done(err);
@@ -221,7 +224,7 @@ module.exports = function(passport) {
 
         // asynchronous
         process.nextTick(function() {
-
+            console.log(profile);
             // check if the user is already logged in
             if (!req.user) {
 
@@ -296,7 +299,7 @@ module.exports = function(passport) {
 
     },
     function(req, token, refreshToken, profile, done) {
-
+        console.log(profile);
         // asynchronous
         process.nextTick(function() {
 
@@ -311,8 +314,9 @@ module.exports = function(passport) {
 
                         // if there is a user id already but no token (user was linked at one point and then removed)
                         if (!user.reddit.token) {
+                            user.reddit.id = profile.id;
                             user.reddit.token = token;
-                            user.reddit.name  = profile.displayName;
+                            user.reddit.name  = profile.name;
 
 
                             user.save(function(err) {
@@ -329,7 +333,7 @@ module.exports = function(passport) {
 
                         newUser.reddit.id    = profile.id;
                         newUser.reddit.token = token;
-                        newUser.reddit.name  = profile.displayName;
+                        newUser.reddit.name  = profile.name;
 
 
                         newUser.save(function(err) {
@@ -347,7 +351,7 @@ module.exports = function(passport) {
 
                 user.reddit.id    = profile.id;
                 user.reddit.token = token;
-                user.reddit.name  = profile.displayName;
+                user.reddit.name  = profile.name;
 
 
                 user.save(function(err) {
