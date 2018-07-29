@@ -8,20 +8,16 @@ var port     = process.env.PORT || 8081;
 var mongoose = require('mongoose');
 var passport = require('passport');
 var flash    = require('connect-flash');
+
 var morgan       = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser   = require('body-parser');
 var session      = require('express-session');
 
+var configDB = require('./config/database.js');
 
-// DB configuration ===============================================================
-
-mongoose.connect('mongodb://54.165.68.141:27017/lynxmasters', { useNewUrlParser: true })
-let db = mongoose.connection
-db.on("error", console.error.bind(console, "connection error"))
-db.once("open", function(callback){
-  console.log("Connection Succeeded")
-})
+// configuration ===============================================================
+mongoose.connect(configDB.url); // connect to our database
 
 require('./config/passport')(passport); // pass passport for configuration
 
@@ -36,7 +32,7 @@ app.set('view engine', 'ejs'); // set up ejs for templating
 // required for passport
 // *********Need to store in .ini file**************
 app.use(session({
-    secret: '4connect234klj324kl3j4k3j4k234j3k4j23l4j43j42', // session secret
+    secret: '4234klj324kl3j4k3j4k234j3k4j23l4j43j42', // session secret
     resave: true,
     saveUninitialized: true
 }));
