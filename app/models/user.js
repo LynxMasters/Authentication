@@ -13,19 +13,23 @@ var userSchema = mongoose.Schema({
         id           : String,
         token        : String,
         username     : String,
-        email        : String
+        email        : String,
+        logo         : String
         
     },
     twitter          : {
         id           : String,
         token        : String,
         displayName  : String,
-        username     : String
+        username     : String,
+        logo         : String   
     },
     reddit           : {
         id           : String,
         token        : String,
-        name         : String
+        name         : String,
+        logo         : String
+
     }
 
 });

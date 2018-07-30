@@ -14,12 +14,17 @@ var cookieParser = require('cookie-parser');
 var bodyParser   = require('body-parser');
 var session      = require('express-session');
 
-var configDB = require('./config/database.js');
 
 // configuration ===============================================================
-mongoose.connect(configDB.url); // connect to our database
-
+ // connect to our database
 require('./config/passport')(passport); // pass passport for configuration
+
+mongoose.connect('mongodb://54.165.68.141:27017/lynxmasters', { useNewUrlParser: true })
+let db = mongoose.connection
+db.on("error", console.error.bind(console, "connection error"))
+db.once("open", function(callback){
+  console.log("Connection Succeeded")
+})
 
 // set up our express application
 app.use(morgan('dev')); // log every request to the console

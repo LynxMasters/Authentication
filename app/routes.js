@@ -81,7 +81,7 @@ module.exports = function(app, passport) {
 
 
     // reddit ---------------------------------
-        //Have to fix state
+        // need to add nounce for state param
         // send to reddit to do the authentication
         app.get('/auth/reddit',
             passport.authenticate('reddit', {
@@ -113,7 +113,7 @@ module.exports = function(app, passport) {
 
     // twitch -------------------------------
 
-        // send to facebook to do the authentication
+        // send to twitch to do the authentication
         app.get('/connect/twitch', passport.authorize('twitch', { scope :'user_read' }));
 
         // handle the callback after twitch has authorized the user
@@ -141,7 +141,7 @@ module.exports = function(app, passport) {
         // send to reddit to do the authentication
         app.get('/connect/reddit', passport.authorize('reddit'));
 
-        // the callback after google has authorized the user
+        // the callback after reedit has authorized the user
         app.get('/connect/reddit/callback',
             passport.authorize('reddit', {
                 successRedirect : '/profile',
@@ -183,7 +183,7 @@ module.exports = function(app, passport) {
         });
     });
 
-    // google ---------------------------------
+    // reddit ---------------------------------
     app.get('/unlink/reddit', isLoggedIn, function(req, res) {
         var user          = req.user;
         user.reddit.token = undefined;

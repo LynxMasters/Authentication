@@ -49,7 +49,9 @@
                         <strong>id</strong>: <%= user.twitch.id %><br>
                         <strong>token</strong>: <%= user.twitch.token %><br>
                         <strong>email</strong>: <%= user.twitch.email %><br>
-                        <strong>username</strong>: <%= user.twitch.username %><br>
+                        <strong>username</strong>: <%= user.twitch.username %>
+                        <img height=48 width=48 src= <%= user.twitch.logo %> <br>
+                        
                     </p>
 
                     <a href="/unlink/twitch" class="btn btn-primary">Unlink</a>
@@ -73,6 +75,8 @@
                         <strong>token</strong>: <%= user.twitter.token %><br>
                         <strong>display name</strong>: <%= user.twitter.displayName %><br>
                         <strong>username</strong>: <%= user.twitter.username %>
+                        <img src= <%= user.twitter.logo %> <br>
+                        
                     </p>
 
                     <a href="/unlink/twitter" class="btn btn-info">Unlink</a>
@@ -93,6 +97,7 @@
                         <strong>id</strong>: <%= user.reddit.id %><br>
                         <strong>token</strong>: <%= user.reddit.token %><br>
                         <strong>username</strong>: <%= user.reddit.name %>
+                        <img height=48 width=48 src= <%= user.reddit.logo %> <br>
                     </p>
 
                     <a href="/unlink/reddit" class="btn btn-danger">Unlink</a>

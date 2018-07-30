@@ -1,6 +1,6 @@
 // load all the things we need
 var LocalStrategy    = require('passport-local').Strategy;
-var TwitchStrategy =   require('passport-twitch').Strategy;
+var TwitchStrategy   = require('passport-twitch').Strategy;
 var TwitterStrategy  = require('passport-twitter').Strategy;
 var RedditStrategy   = require('passport-reddit').Strategy;
 
@@ -149,7 +149,7 @@ module.exports = function(passport) {
 
         // asynchronous
         process.nextTick(function() {
-            console.log(profile);
+            console.log("=============twitch==============",profile);
             // check if the user is already logged in
             if (!req.user) {
 
@@ -180,6 +180,7 @@ module.exports = function(passport) {
                         newUser.twitch.token = token;
                         newUser.twitch.username  = profile.username;
                         newUser.twitch.email = profile.email;
+                        newUser.twitch.logo = profile._json.logo;
                         newUser.save(function(err) {
                             if (err)
                                 return done(err);
@@ -197,6 +198,7 @@ module.exports = function(passport) {
                 user.twitch.token = token;
                 user.twitch.username = profile.username;
                 user.twitch.email = profile.email;
+                user.twitch.logo = profile._json.logo;
                 user.save(function(err) {
                     if (err)
                         return done(err);
@@ -224,7 +226,7 @@ module.exports = function(passport) {
 
         // asynchronous
         process.nextTick(function() {
-            console.log(profile);
+            console.log("=============twitter==============",profile);
             // check if the user is already logged in
             if (!req.user) {
 
@@ -238,6 +240,7 @@ module.exports = function(passport) {
                             user.twitter.token       = token;
                             user.twitter.username    = profile.username;
                             user.twitter.displayName = profile.displayName;
+                            user.twitter.logo        = profile.photos[0].value;
 
                             user.save(function(err) {
                                 if (err)
@@ -256,6 +259,7 @@ module.exports = function(passport) {
                         newUser.twitter.token       = token;
                         newUser.twitter.username    = profile.username;
                         newUser.twitter.displayName = profile.displayName;
+                        newUser.twitter.logo        = profile.photos[0].value;    
 
                         newUser.save(function(err) {
                             if (err)
@@ -274,6 +278,7 @@ module.exports = function(passport) {
                 user.twitter.token       = token;
                 user.twitter.username    = profile.username;
                 user.twitter.displayName = profile.displayName;
+                user.twitter.logo        = profile.photos[0].value;
 
                 user.save(function(err) {
                     if (err)
@@ -299,7 +304,7 @@ module.exports = function(passport) {
 
     },
     function(req, token, refreshToken, profile, done) {
-        console.log(profile);
+        console.log("=============reddit==============",profile);
         // asynchronous
         process.nextTick(function() {
 
@@ -317,6 +322,7 @@ module.exports = function(passport) {
                             user.reddit.id = profile.id;
                             user.reddit.token = token;
                             user.reddit.name  = profile.name;
+                            user.reddit.logo  = profile._json.icon_img;
 
 
                             user.save(function(err) {
@@ -334,7 +340,7 @@ module.exports = function(passport) {
                         newUser.reddit.id    = profile.id;
                         newUser.reddit.token = token;
                         newUser.reddit.name  = profile.name;
-
+                        newUser.reddit.logo  = profile._json.icon_img;
 
                         newUser.save(function(err) {
                             if (err)
@@ -352,7 +358,7 @@ module.exports = function(passport) {
                 user.reddit.id    = profile.id;
                 user.reddit.token = token;
                 user.reddit.name  = profile.name;
-
+                user.reddit.logo  = profile._json.icon_img;
 
                 user.save(function(err) {
                     if (err)
