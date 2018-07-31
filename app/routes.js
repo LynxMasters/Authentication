@@ -1,5 +1,5 @@
 module.exports = function(app, passport) {
-
+const request = require ('request');
 // normal routes ===============================================================
 
     // show the home page (will also have our login links)
@@ -193,8 +193,20 @@ module.exports = function(app, passport) {
     });
 
 
-};
 
+
+// =============================================================================
+// TEST ENDPOINTS =============================================================
+// =============================================================================
+    app.get('/get/twitchEndpoint', function(req, res, next){
+        request('https://api.twitch.tv/kraken/users/216121657/follows/channels', function (error, response, body) {
+            if (!error && response.statusCode == 200) {
+                var info = JSON.parse(body)
+                res.redirect('/profile');
+            }
+        })
+    });
+};
 // route middleware to ensure user is logged in
 function isLoggedIn(req, res, next) {
     if (req.isAuthenticated())
